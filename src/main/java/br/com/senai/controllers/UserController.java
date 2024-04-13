@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -24,19 +24,17 @@ public class UserController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public Users createUsers(@RequestBody Users users){
-        //Cria um novo objeto Users
         Users newUsers = new Users();
-        //Seta as propriedades do Coffee
         newUsers.setUsername(users.getUsername());
         newUsers.setPassword(users.getPassword());
-        //Chama o método save para salvar o objeto no banco de dados
+        newUsers.setEmail(users.getEmail());
         return usersRepository.save(newUsers);
     }
 
     @PutMapping(value="/updateUsers",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Users updateCoffee(@RequestBody Users users){
+    public Users updateUsers(@RequestBody Users users){
         Users getUser = usersRepository
                 .findById(users.getId()).orElseThrow();
         Users updateUsers = new Users();
@@ -44,6 +42,7 @@ public class UserController {
         updateUsers.setId(users.getId());
         updateUsers.setUsername(users.getUsername());
         updateUsers.setPassword(users.getPassword());
+        updateUsers.setEmail(users.getEmail());
 
         return usersRepository.save(updateUsers);
     }
